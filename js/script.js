@@ -1,7 +1,17 @@
-var argMoveId, argPlayerMove, argComputerMove, computerMove, playerMove, randomNumber, playerInput;
+// Funkcje do wyświetlania wiadomości
+function clearMessages() {
+  document.getElementById('messages').innerHTML = '';
+}
 
+function printMessage(msg) {
+  const messagesDiv = document.getElementById('messages');
+  const p = document.createElement('p');
+  p.innerText = msg;
+  messagesDiv.appendChild(p);
+}
+
+// Funkcja zwracająca nazwę ruchu na podstawie id
 function getMoveName(argMoveId) {
-  console.log('Wywołano funkcję getMoveName z argumentem: ' + argMoveId);
   if (argMoveId == 1) {
     return 'kamień';
   } else if (argMoveId == 2) {
@@ -14,9 +24,8 @@ function getMoveName(argMoveId) {
   }
 }
 
+// Funkcja wyświetlająca wynik gry
 function displayResult(argPlayerMove, argComputerMove) {
-  console.log('Wywołano funkcję displayResult z argumentami: ' + argPlayerMove + ', ' + argComputerMove);
-  
   if (
     (argPlayerMove == 'papier' && argComputerMove == 'kamień') ||
     (argPlayerMove == 'nożyce' && argComputerMove == 'papier') ||
@@ -32,18 +41,26 @@ function displayResult(argPlayerMove, argComputerMove) {
   printMessage('Zagrałem ' + argComputerMove + ', a Ty ' + argPlayerMove);
 }
 
-// Pobranie ruchu gracza
-playerInput = prompt('Wybierz swój ruch! 1: kamień, 2: papier, 3: nożyce.');
-console.log('Wybór ruchu gracza to: ' + playerInput);
-playerMove = getMoveName(playerInput);
-console.log('Ruch gracza to: ' + playerMove);
+// Pobranie guzików po id
+var buttonRock = document.getElementById('button-rock');
+var buttonPaper = document.getElementById('button-paper');
+var buttonScissors = document.getElementById('button-scissors');
 
-// Losowanie ruchu komputera
-randomNumber = Math.floor(Math.random() * 3 + 1);
-console.log('Wylosowana liczba to: ' + randomNumber);
-computerMove = getMoveName(randomNumber);
-console.log('Ruch komputera to: ' + computerMove);
+// Funkcja wywoływana po kliknięciu guzika
+function buttonClicked(argPlayerMove) {
+  clearMessages();
+  console.log(argPlayerMove + ' został kliknięty');
 
-// Wyświetlenie wyniku
-displayResult(playerMove, computerMove);
+  var randomNumber = Math.floor(Math.random() * 3 + 1);
+  var computerMove = getMoveName(randomNumber);
+
+  displayResult(argPlayerMove, computerMove);
+}
+
+// Powiązanie guzików z funkcją buttonClicked
+buttonRock.addEventListener('click', function() { buttonClicked('kamień'); });
+buttonPaper.addEventListener('click', function() { buttonClicked('papier'); });
+buttonScissors.addEventListener('click', function() { buttonClicked('nożyce'); });
+
+
 
